@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url1 = "http://localhost:5000/api/submit"; // Replace with your API URL
+const url1 = "http://localhost:80/api/submit"; // Replace with your API URL
 const url2 =
   "http://localhost:5000/api/status?jobId=5a3475b7-9c71-491e-adc0-4f9365c24218";
 const payload = {
