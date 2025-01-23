@@ -1,28 +1,28 @@
-version: '3'
+# version: '3'
 services:
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    build: 
-      context: ./nginx
-    deploy:
-      resources:
-        limits:
-          cpus: "1.5"          # Use 1.5 CPU cores
-          memory: 1G           # Limit memory to 1GB
-        reservations:
-          memory: 512M         # Reserve 512MB memory
-    depends_on:
-      kirana1:
-        condition: service_healthy
-      kirana2:
-        condition: service_healthy
-      kirana3:
-        condition: service_healthy
-    extends:
-      file: common-config.yml
-      service: network-deploy-service
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #   build: 
+  #     context: ./nginx
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: "1.5"
+  #         memory: 1G
+  #       reservations:
+  #         memory: 512M
+  #   depends_on:
+  #     kirana1:
+  #       condition: service_healthy
+  #     kirana2:
+  #       condition: service_healthy
+  #     kirana3:
+  #       condition: service_healthy
+  #   extends:
+  #     file: common-config.yml
+  #     service: network-deploy-service
   kirana1:
     image: "kirana1"
     extends:
@@ -34,36 +34,36 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
       retries: 3
-    # ports:
-    #   - "5000:5000"
+    ports:
+      - "5000:5000"
     depends_on:
       - redis
-  kirana2:
-    image: "kirana2"
-    extends:
-      file: common-config.yml
-      service: app-servers-base-config
-    environment:
-      - SERVER_ID=kirana2
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      retries: 3
-    depends_on:
-      - redis
-  kirana3:
-    image: "kirana3"
-    extends:
-      file: common-config.yml
-      service: app-servers-base-config
-    environment:
-      - SERVER_ID=kirana3
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      retries: 3
-    depends_on:
-      - redis
+  # kirana2:
+  #   image: "kirana2"
+  #   extends:
+  #     file: common-config.yml
+  #     service: app-servers-base-config
+  #   environment:
+  #     - SERVER_ID=kirana2
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+  #     interval: 30s
+  #     retries: 3
+  #   depends_on:
+  #     - redis
+  # kirana3:
+  #   image: "kirana3"
+  #   extends:
+  #     file: common-config.yml
+  #     service: app-servers-base-config
+  #   environment:
+  #     - SERVER_ID=kirana3
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+  #     interval: 30s
+  #     retries: 3
+  #   depends_on:
+  #     - redis
   redis:
     image: redis
     extends:
